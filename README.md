@@ -8,8 +8,9 @@ Uses [rrule](https://github.com/jakubroztocil/rrule) v2 as a dependency (from th
 
 Getting all names of events happening tomorrow:
 
-```
-
+```TypeScript
+import { serve } from "https://deno.land/std@0.192.0/http/server.ts";
+import parseICS from "../_shared/ics_parser.ts";
 const icsUrl = "https://calendar.google.com/calendar/ical/.../private/basic.ics";
 
 serve(async (req: Request) => {
