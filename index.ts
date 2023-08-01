@@ -1,3 +1,5 @@
+import { datetime, RRule, RRuleSet, rrulestr } from 'https://cdn.jsdelivr.net/npm/rrule@2/+esm'
+
 type Event = {
   type?: string;
   startDate?: Date;
@@ -14,7 +16,9 @@ type Event = {
   geo?: { latitude: number; longitude: number };
   categories?: string[];
   attendee?: { name?: string; mail: string }[];
+  rrule?: RRule;
 };
+
 
 type DateKey = 'startDate' | 'endDate' | 'end' | 'completed' | 'due';
 type StringKey = 'type' | 'uid' | 'name' | 'description' | 'location' | 'url';
@@ -91,7 +95,14 @@ const objects: Record<string, (value: string, params: any, events: Event[], last
 
     return lastEvent;
   },
-
+  'RRULE': function objectRRule(value: string, params: any, events: Event[], lastEvent: Event) {
+    try {
+      lastEvent.rrule = rrulestr(value);
+    } catch (error) {
+      console.error('Failed to parse RRULE:', value, error);
+    }
+    return lastEvent;
+  },
   'DTSTART': generateDateFunction('startDate'),
   'DTEND': generateDateFunction('endDate'),
   'DTSTAMP': generateDateFunction('end'),
