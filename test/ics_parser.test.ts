@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import parseICS from './ics_parser.ts';
+import parseICS from '../ics_parser.ts';
 
 describe('parseICS', () => {
   let icsString: string;
